@@ -25,7 +25,7 @@
     "typecheck": "pnpm run typecheck:config && pnpm run typecheck:src"
   },
   "peerDependencies": {
-    "eslint": ">=9",
+    "eslint": ">=10",
     "typescript": ">=5"
   },
   "devDependencies": {

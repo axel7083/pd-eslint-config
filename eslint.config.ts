@@ -17,13 +17,10 @@
  ***********************************************************************/
 
 import base from './dist/base.js';
-
 import { defineConfig, globalIgnores } from "eslint/config";
 
 export default defineConfig([
         globalIgnores(['./dist/**']),
-        base({
-            projects: ['./tsconfig.json', 'tsconfig.config.json'],
-        }),
+        base(),
     ],
 );

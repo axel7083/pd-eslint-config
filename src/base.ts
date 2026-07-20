@@ -19,16 +19,14 @@ import { defineConfig, Config } from "eslint/config";
 import tseslint from 'typescript-eslint';
 import js from '@eslint/js';
 
-export default function (options: {
-  projects: Array<string>
-}): Array<Config> {
+export default function (): Array<Config> {
   return defineConfig([
     {
       files: ['**/*.{js,ts}'],
       extends: [js.configs.recommended, tseslint.configs.recommendedTypeChecked],
       languageOptions: {
         parserOptions: {
-          project: options.projects,
+          project: ["**/tsconfig*.json", "!**/node_modules/**"],
         },
       },
     },

@@ -26,5 +26,8 @@ export default defineConfig([
 ```sh
 pnpm install
 pnpm build
+pnpm lint:check
 pnpm typecheck
 ```
+
+This repository is linted with its own configuration (see [`eslint.config.ts`](./eslint.config.ts)).

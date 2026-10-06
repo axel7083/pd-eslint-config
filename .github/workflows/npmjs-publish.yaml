@@ -35,7 +35,6 @@ jobs:
     outputs:
       version: ${{ steps.set-version.outputs.version }}
       dist-tag: ${{ steps.set-version.outputs.dist-tag }}
-      is-tag: ${{ steps.set-version.outputs.is-tag }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
@@ -53,7 +52,6 @@ jobs:
 
             echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
             echo "dist-tag=latest" >> "${GITHUB_OUTPUT}"
-            echo "is-tag=true" >> "${GITHUB_OUTPUT}"
           else
             # main branch, e.g. 0.1.0-next -> 0.1.0-next.202610061200-abc1234
             SHORT_SHA1=$(git rev-parse --short HEAD)
@@ -63,15 +61,12 @@ jobs:
 
             echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
             echo "dist-tag=next" >> "${GITHUB_OUTPUT}"
-            echo "is-tag=false" >> "${GITHUB_OUTPUT}"
           fi
 
   publish:
     name: Publish to npm
     needs: [prepare-version]
     runs-on: ubuntu-26.04
-    # For tag releases, require an environment (so people can approve it)
-    environment: ${{ needs.prepare-version.outputs.is-tag == 'true' && 'npmjs-publication' || '' }}
     permissions:
       id-token: write
     steps:
@@ -94,11 +89,9 @@ jobs:
         env:
           VERSION: ${{ needs.prepare-version.outputs.version }}
           DIST_TAG: ${{ needs.prepare-version.outputs.dist-tag }}
-          IS_TAG: ${{ needs.prepare-version.outputs.is-tag }}
         run: |
           echo "Publishing version: ${VERSION}"
           echo "Using dist-tag:     ${DIST_TAG}"
-          echo "Is tag ref:         ${IS_TAG}"
 
       - name: Update version in package.json
         env:

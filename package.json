@@ -4,43 +4,43 @@
   "description": "Shared ESLint config enforcing @podman-desktop's code style",
   "type": "module",
   "exports": {
-    "./base": {
-      "import": "./dist/base.js",
-      "types": "./dist/base.d.ts"
-    },
-    "./svelte": {
-      "import": "./dist/svelte.js",
-      "types": "./dist/svelte.d.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
     }
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "vite build",
-    "lint:fix": "node --max-old-space-size=8192 node_modules/eslint/bin/eslint.js --flag unstable_native_nodejs_ts_config --cache . --cache-strategy content --fix",
-    "lint:check": "node --max-old-space-size=8192 node_modules/eslint/bin/eslint.js --flag unstable_native_nodejs_ts_config --cache . --cache-strategy content",
-    "typecheck:config": "tsc --project tsconfig.config.json --noEmit",
-    "typecheck:src": "tsc --project tsconfig.json --noEmit",
-    "typecheck": "pnpm run typecheck:config && pnpm run typecheck:src"
+    "build": "tsc --project tsconfig.build.json",
+    "lint:fix": "eslint --flag unstable_native_nodejs_ts_config --cache . --cache-strategy content --fix",
+    "lint:check": "eslint --flag unstable_native_nodejs_ts_config --cache . --cache-strategy content",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
   },
   "peerDependencies": {
     "eslint": ">=10",
     "typescript": ">=5"
   },
-  "devDependencies": {
+  "dependencies": {
+    "@eslint/compat": "^2.1.1",
     "@eslint/js": "^10.0.1",
-    "@sveltejs/kit": "^2.69.0",
-    "@types/node": "^24",
-    "@typescript-eslint/eslint-plugin": "^8.62.1",
-    "@typescript-eslint/parser": "^8.62.1",
-    "eslint": "^9.0.0",
-    "eslint-plugin-svelte": "^3.20.0",
-    "svelte-eslint-parser": "^1.8.0",
-    "typescript": "^6.0.3",
-    "typescript-eslint": "^8.62.1",
-    "vite": "^8.1.3",
-    "vite-plugin-dts": "^5.0.3"
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-sonarjs": "^4.2.2",
+    "eslint-plugin-svelte": "^3.23.0",
+    "eslint-plugin-unicorn": "^77.0.0",
+    "globals": "^17.13.0",
+    "svelte-eslint-parser": "^1.8.1",
+    "typescript-eslint": "^8.71.1"
   },
+  "devDependencies": {
+    "@types/node": "^24",
+    "eslint": "^10.12.0",
+    "svelte": "^5.57.1",
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.3"
+  },
+  "packageManager": "pnpm@12.8.1",
   "license": "Apache-2.0"
 }

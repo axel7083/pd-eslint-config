@@ -16,11 +16,9 @@
  * SPDX-License-Identifier: Apache-2.0
  ***********************************************************************/
 
-import base from './dist/base.js';
-import { defineConfig, globalIgnores } from "eslint/config";
+import { defineConfig, globalIgnores } from 'eslint/config';
 
-export default defineConfig([
-        globalIgnores(['./dist/**']),
-        base(),
-    ],
-);
+import podmanDesktop from './src/index.ts';
+
+// lint this repository with its own config
+export default defineConfig([podmanDesktop, globalIgnores(['tests/fixtures/**'])]);

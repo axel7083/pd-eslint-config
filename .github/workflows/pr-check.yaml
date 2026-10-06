@@ -24,7 +24,7 @@ permissions:
 
 jobs:
   lint-format-unit:
-    name: linter, typecheck
+    name: linter, typecheck, tests
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -52,4 +52,5 @@ jobs:
       - name: Run typecheck
         run: pnpm typecheck
 
-
+      - name: Run tests
+        run: pnpm test

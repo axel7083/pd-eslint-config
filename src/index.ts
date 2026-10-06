@@ -16,57 +16,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ***********************************************************************/
 
-import js from '@eslint/js';
 import type { Config } from 'eslint/config';
-import { defineConfig, globalIgnores } from 'eslint/config';
-import globals from 'globals';
-import tseslint from 'typescript-eslint';
+import { defineConfig } from 'eslint/config';
 
 /**
  * Shared ESLint configuration for Podman Desktop repositories.
  *
- * It needs no options: TypeScript projects are discovered through `projectService`
- * (nearest tsconfig.json of each file).
+ * Empty for now: it is added to every repository first, then rules are added one by one.
  */
-const config: Config[] = defineConfig([
-  globalIgnores(['**/dist/**', '**/coverage/**', '**/*.config.{js,mjs,cjs}']),
-
-  js.configs.recommended,
-  tseslint.configs.recommended,
-
-  {
-    linterOptions: {
-      reportUnusedDisableDirectives: 'off',
-    },
-    languageOptions: {
-      globals: {
-        ...globals.node,
-      },
-      sourceType: 'module',
-      parserOptions: {
-        warnOnUnsupportedTypeScriptVersion: false,
-        projectService: {
-          // ambient declarations (e.g. types/podman-desktop-api.d.ts) are usually not part of any tsconfig.json
-          allowDefaultProject: ['types/*.d.ts'],
-        },
-      },
-    },
-    rules: {
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', caughtErrors: 'none' }],
-      '@typescript-eslint/consistent-type-imports': 'error',
-      '@typescript-eslint/no-explicit-any': 'error',
-      '@typescript-eslint/await-thenable': 'error',
-      '@typescript-eslint/no-floating-promises': ['error', { ignoreVoid: false }],
-      '@typescript-eslint/no-misused-promises': 'error',
-      '@typescript-eslint/prefer-optional-chain': 'error',
-      '@typescript-eslint/explicit-function-return-type': 'error',
-      '@typescript-eslint/prefer-nullish-coalescing': ['error', { ignoreConditionalTests: true }],
-      '@typescript-eslint/no-require-imports': 'off',
-
-      // recommended since eslint v10, not enforced yet
-      'preserve-caught-error': 'off',
-    },
-  },
-]);
+const config: Config[] = defineConfig([]);
 
 export default config;

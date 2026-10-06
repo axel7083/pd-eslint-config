@@ -14,18 +14,10 @@
   ],
   "scripts": {
     "build": "tsc --project tsconfig.build.json",
-    "lint:fix": "eslint --flag unstable_native_nodejs_ts_config --cache . --cache-strategy content --fix",
-    "lint:check": "eslint --flag unstable_native_nodejs_ts_config --cache . --cache-strategy content",
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
-    "eslint": ">=10",
-    "typescript": ">=5"
-  },
-  "dependencies": {
-    "@eslint/js": "^10.0.1",
-    "globals": "^17.13.0",
-    "typescript-eslint": "^8.71.0"
+    "eslint": ">=10"
   },
   "devDependencies": {
     "@types/node": "^24",

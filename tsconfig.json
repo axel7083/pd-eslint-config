@@ -9,6 +9,5 @@
     "allowImportingTsExtensions": true,
     "types": ["node"]
   },
-  "include": ["src", "tests", "*.config.ts"],
-  "exclude": ["tests/fixtures"]
+  "include": ["src", "*.config.ts"]
 }

@@ -40,7 +40,8 @@ All plugins are dependencies of this package, a repository only needs `eslint`, 
 
 - `@eslint/js`, `typescript-eslint`, `eslint-plugin-sonarjs` and `eslint-plugin-import` recommended configs
 - `eslint-plugin-unicorn`
-- `eslint-plugin-svelte` recommended config for `*.svelte` and `*.svelte.ts` files
+- `eslint-plugin-svelte` recommended config for `*.svelte` and `*.svelte.ts` files, only when `svelte` is installed in
+  the repository
 - the rules shared by the Podman Desktop repositories, see [`src/index.ts`](./src/index.ts)
 - ignores for generated folders (`dist`, `coverage`, `.svelte-kit`, ...) and `*.config.{js,mjs,cjs}` files
 
@@ -51,7 +52,6 @@ pnpm install
 pnpm build
 pnpm lint:check
 pnpm typecheck
-pnpm test
 ```
 
 This repository is linted with its own configuration (see [`eslint.config.ts`](./eslint.config.ts)).

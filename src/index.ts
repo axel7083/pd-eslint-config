@@ -21,11 +21,44 @@ import type { Config } from 'eslint/config';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import importPlugin from 'eslint-plugin-import';
 import sonarjs from 'eslint-plugin-sonarjs';
-import svelte from 'eslint-plugin-svelte';
 import unicorn from 'eslint-plugin-unicorn';
 import globals from 'globals';
-import svelteParser from 'svelte-eslint-parser';
 import tseslint from 'typescript-eslint';
+
+/**
+ * eslint-plugin-svelte imports `svelte` even though it is an optional peer dependency,
+ * so the svelte configuration is only added when the repository has svelte installed.
+ */
+async function svelteConfigs(): Promise<Config[]> {
+  try {
+    import.meta.resolve('svelte');
+  } catch {
+    return [];
+  }
+
+  const { default: svelte } = await import('eslint-plugin-svelte');
+  const { default: svelteParser } = await import('svelte-eslint-parser');
+
+  return defineConfig({
+    files: ['**/*.svelte', '**/*.svelte.ts'],
+    extends: [svelte.configs['flat/recommended']],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+      },
+      parser: svelteParser,
+      parserOptions: {
+        parser: tseslint.parser,
+      },
+    },
+    rules: {
+      '@typescript-eslint/no-unused-expressions': 'off',
+      'unicorn/prefer-node-protocol': 'off',
+      'sonarjs/no-nested-assignment': 'off',
+      'sonarjs/no-alphabetical-sort': 'off',
+    },
+  });
+}
 
 /**
  * Shared ESLint configuration for Podman Desktop repositories.
@@ -153,25 +186,7 @@ const config: Config[] = defineConfig([
     },
   },
 
-  {
-    files: ['**/*.svelte', '**/*.svelte.ts'],
-    extends: [svelte.configs['flat/recommended']],
-    languageOptions: {
-      globals: {
-        ...globals.browser,
-      },
-      parser: svelteParser,
-      parserOptions: {
-        parser: tseslint.parser,
-      },
-    },
-    rules: {
-      '@typescript-eslint/no-unused-expressions': 'off',
-      'unicorn/prefer-node-protocol': 'off',
-      'sonarjs/no-nested-assignment': 'off',
-      'sonarjs/no-alphabetical-sort': 'off',
-    },
-  },
+  ...(await svelteConfigs()),
 
   {
     files: ['**/*.spec.ts'],
